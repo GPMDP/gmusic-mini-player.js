@@ -86,6 +86,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.miniButtonElement.addEventListener('click', function (e) {
             _this.getControls().toggle();
             e.target.blur();
+            _this.miniButtonElement.style.display = 'none';
+            document.body.removeAttribute('ready');
+            setTimeout(function () {
+              _this.miniButtonElement.style.display = 'block';
+            }, 400);
             e.preventDefault();
             return false;
           });
@@ -149,8 +154,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           });
 
           // DEV: Handle abstract resizing of the window
-          document.body.addEventListener('mouseover', function () {
-            if (_this5.miniButtonElement.style.display !== 'none') {
+          document.body.addEventListener('mousemove', function () {
+            if (_this5.miniState && _this5.miniButtonElement.style.display !== 'none') {
               document.body.setAttribute('ready', 'ready');
             }
           });

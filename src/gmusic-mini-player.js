@@ -58,6 +58,11 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     this.miniButtonElement.addEventListener('click', (e) => {
       this.getControls().toggle();
       e.target.blur();
+      this.miniButtonElement.style.display = 'none';
+      document.body.removeAttribute('ready');
+      setTimeout(() => {
+        this.miniButtonElement.style.display = 'block';
+      }, 400);
       e.preventDefault();
       return false;
     });
@@ -109,8 +114,8 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     });
 
     // DEV: Handle abstract resizing of the window
-    document.body.addEventListener('mouseover', () => {
-      if (this.miniButtonElement.style.display !== 'none') {
+    document.body.addEventListener('mousemove', () => {
+      if (this.miniState && this.miniButtonElement.style.display !== 'none') {
         document.body.setAttribute('ready', 'ready');
       }
     });
