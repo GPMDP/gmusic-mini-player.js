@@ -30,6 +30,10 @@ body[ready]:hover #mini-info, body[controls] #mini-info {
   opacity: 1;
 }
 
+#mainContainer {
+  overflow: hidden;
+}
+
 #material-player-right-wrapper, #material-player-left-wrapper .player-left .image-wrapper, #material-player-left-wrapper .now-playing-info-content, #material-player-left-wrapper [data-id="now-playing-menu"] {
   display: none;
 }
