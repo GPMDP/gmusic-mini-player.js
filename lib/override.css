@@ -23,7 +23,7 @@
 }
 
 body[ready]:hover #player, body[controls] #player {
-  bottom: 10px;
+  bottom: -12px;
 }
 
 body[ready]:hover #mini-info, body[controls] #mini-info {
