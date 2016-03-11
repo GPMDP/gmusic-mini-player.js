@@ -200,6 +200,11 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
   _enable() {
     let delay = 0;
     this.miniState = true;
+    // close menu
+    const closeBtn = document.getElementById('left-nav-close-button');
+    if (closeBtn !== null) {
+      closeBtn.click();
+    }
     // DEV: Allow a syncronous callback to handle the enable event and delay by X milliseconds
     this._fire('enable', (newDelay) => {
       delay = newDelay;
