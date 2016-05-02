@@ -1,8 +1,8 @@
 # gmusic-mini-player.js
-[![Build Status](https://travis-ci.org/MarshallOfSound/gmusic-mini-player.js.svg?branch=master)](https://travis-ci.org/gmusic-utils/gmusic-theme.js)
-[![GitHub release](https://img.shields.io/github/tag/MarshallOfSound/gmusic-mini-player.js.svg)]()
-[![Code Climate](https://img.shields.io/codeclimate/github/MarshallOfSound/gmusic-mini-player.js.svg)]()
-[![GitHub license](https://img.shields.io/github/license/MarshallOfSound/gmusic-mini-player.js.svg)]()
+[![Build Status](https://travis-ci.org/GPMDP/gmusic-mini-player.js.svg?branch=master)](https://travis-ci.org/gmusic-utils/gmusic-theme.js)
+[![GitHub release](https://img.shields.io/github/tag/GPMDP/gmusic-mini-player.js.svg)]()
+[![Code Climate](https://img.shields.io/codeclimate/github/GPMDP/gmusic-mini-player.js.svg)]()
+[![GitHub license](https://img.shields.io/github/license/GPMDP/gmusic-mini-player.js.svg)]()
 
 Browser-side JS library for transforming [Google Music][] into a mini player.
 
@@ -35,7 +35,7 @@ Once installed, add it to your HTML and access it via `(new window.GMusic(window
 ### Vanilla
 If you are not using a package manager, download the latest script at:
 
-https://raw.githubusercontent.com/MarshallOfSound/gmusic-mini-player.js/master/dist/gmusic-mini-player.min.js
+https://raw.githubusercontent.com/GPMDP/gmusic-mini-player.js/master/dist/gmusic-mini-player.min.js
 
 Then, add it to your HTML and access it via `window.GMusicTheme`.
 

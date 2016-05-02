@@ -2,7 +2,7 @@
   "name": "gmusic-mini-player.js",
   "description": "",
   "version": "1.0.6",
-  "homepage": "https://github.com/MarshallOfSound/gmusic-mini-player.js#readme",
+  "homepage": "https://github.com/GPMDP/gmusic-mini-player.js#readme",
   "author": {
     "name": "Samuel Attard",
     "email": "samuel.r.attard@gmail.com",
@@ -16,11 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MarshallOfSound/gmusic-mini-player.js.git"
+    "url": "git+https://github.com/GPMDP/gmusic-mini-player.js.git"
   },
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/MarshallOfSound/gmusic-mini-player.js/issues"
+    "url": "https://github.com/GPMDP/gmusic-mini-player.js/issues"
   },
   "dependencies": {
     "brfs": "^1.4.2"
