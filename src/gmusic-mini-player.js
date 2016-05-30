@@ -268,4 +268,3 @@ if (!window.GMusic) {
   window.GMusic._protoObj.mini = controller.getControls();
 }
 
-// Fire event emitters on settings to do _protoObj.setScrollVolume(true/false);
