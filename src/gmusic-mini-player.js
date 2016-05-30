@@ -153,7 +153,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     this._initMiniPlayerRadioMonitor();
 
     this.miniState = false;
-    this.scrollVolume = false;
+    this.scrollVolume = true;
     this.events = {};
 
     this._initGlobalEventHandlers();
