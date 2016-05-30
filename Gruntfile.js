@@ -53,7 +53,7 @@ module.exports = (grunt) => {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-execute');
-  grunt.loadNpmTasks('gruntify-eslint');
+  grunt.loadNpmTasks('grunt-eslint');
 
 
   grunt.registerTask('test', ['eslint']);
