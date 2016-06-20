@@ -30,6 +30,10 @@ body[ready]:hover #mini-info, body[controls] #mini-info {
   opacity: 1;
 }
 
+#topBar {
+  display: none;
+}
+
 #mainContainer {
   overflow: hidden;
 }

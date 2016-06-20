@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // DEV: These constants will be transformed into string constants by browserify
-const BASE_CSS = fs.readFileSync(__dirname + '/../build/rework.css', 'utf8');
+const BASE_CSS = fs.readFileSync(__dirname + '/../build/rework.css', 'utf8'); // eslint-disable-line
 const CONSTANTS = require('../lib/_constants');
 
 const GMusicMiniPlayerController = class GMusicMiniPlayerController {
@@ -26,7 +26,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     this.miniAlbumArt.setAttribute('style', 'display: none');
     // DEV: If the album art load ever fails, use the placeholder
     this.miniAlbumArt.addEventListener('error', (e) => {
-      e.target.src = 'https://www.samuelattard.com/img/gpm_placeholder.jpg';
+      e.target.src = 'https://www.samuelattard.com/img/gpm_placeholder.jpg'; // eslint-disable-line
     });
     // DEV: Prevent dragging of the album image
     this.miniAlbumArt.addEventListener('mousedown', (e) => {
@@ -53,7 +53,16 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     this.timeSpan_Total.innerHTML = '0:00';
     player.appendChild(this.timeSpan_Total);
 
-    container.innerHTML = '<paper-icon-button data-id="show-miniplayer-dp" icon="open-in-new" title="Show mini player" aria-label="Show mini player" role="button" tabindex="0" no-focus=""></paper-icon-button>';
+    container.innerHTML = `
+      <paper-icon-button
+        data-id="show-miniplayer-dp"
+        icon="open-in-new"
+        title="Show mini player"
+        aria-label="Show mini player"
+        role="button"
+        tabindex="0"
+        no-focus="">
+      </paper-icon-button>`;
     this.miniButtonElement = container.querySelectorAll('[data-id="show-miniplayer-dp"]')[0];
     this.miniButtonElement.addEventListener('click', (e) => {
       this.getControls().toggle();
@@ -97,13 +106,14 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
       this.miniAlbumArt.src = e.art.replace('=s90', '=s300');
       const infoSpans = this.miniNowPlayerInfo.getElementsByTagName('span');
       infoSpans[0].innerHTML = e.title;
-      infoSpans[1].innerHTML = e.artist + ' - ' + e.album;
+      infoSpans[1].innerHTML = `${e.artist} - ${e.album}`;
     });
   }
 
   _initGlobalEventHandlers() {
     // DEV: Scroll to change volume in mini player mode
     window.addEventListener('mousewheel', (e) => {
+      if (!this.scrollVolume) return;
       if (this.miniState) {
         if (e.wheelDelta < 0) {
           this.GPM_API.volume.decreaseVolume();
@@ -143,6 +153,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     this._initMiniPlayerRadioMonitor();
 
     this.miniState = false;
+    this.scrollVolume = true;
     this.events = {};
 
     this._initGlobalEventHandlers();
@@ -152,7 +163,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     const totalSeconds = Math.floor(milli / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    return minutes + ':' + (seconds < 10 ? '0' + seconds : seconds);
+    return `${minutes}:${(seconds < 10 ? `0${seconds}` : seconds)}`;
   }
 
   _hook(what, fn) {
@@ -190,6 +201,12 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
       },
       showControlsWhen: (when) => {
         this._showControlsWhen(when);
+      },
+      setScrollVolume: (state) => {
+        this.scrollVolume = state;
+      },
+      getScrollVolume: () => {
+        return this.scrollVolume;
       },
       on: (what, fn) => {
         this._hook(what, fn);
@@ -250,3 +267,4 @@ if (!window.GMusic) {
   // DEV: Hook into the existing GMusic libraries global prototype
   window.GMusic._protoObj.mini = controller.getControls();
 }
+
