@@ -109,30 +109,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "_initMiniPlayerRadioMonitor",
         value: function _initMiniPlayerRadioMonitor() {
-          var _this3 = this;
-
-          this.GPM_API.on('change:playback', function () {
-            var repeatElement = document.querySelectorAll(_this3.SELECTORS.repeat.buttonSelector);
-            var player = document.querySelector('#player');
-            if (repeatElement && repeatElement[0] && player) {
-              if (repeatElement[0].style.display === 'none') {
-                if (player.getAttribute('radio') === null) {
-                  player.setAttribute('radio', 'on');
-                }
-              } else if (player.getAttribute('radio') !== null) {
-                player.removeAttribute('radio');
+          this.GPM_API.on('change:playback', this._radioMonitor.bind(this));
+          this.GPM_API.on('change:playback-time', this._radioMonitor.bind(this));
+          this.GPM_API.on('change:song', this._radioMonitor.bind(this));
+        }
+      }, {
+        key: "_radioMonitor",
+        value: function _radioMonitor() {
+          var repeatElement = document.querySelectorAll(this.SELECTORS.repeat.buttonSelector);
+          var player = document.querySelector('#player');
+          if (repeatElement && repeatElement[0] && player) {
+            if (repeatElement[0].style.display === 'none') {
+              if (player.getAttribute('radio') === null) {
+                player.setAttribute('radio', 'on');
               }
+            } else if (player.getAttribute('radio') !== null) {
+              player.removeAttribute('radio');
             }
-          });
+          }
         }
       }, {
         key: "_initMiniPlayerNowPlayingMonitor",
         value: function _initMiniPlayerNowPlayingMonitor() {
-          var _this4 = this;
+          var _this3 = this;
 
           this.GPM_API.on('change:song', function (e) {
-            _this4.miniAlbumArt.src = e.art.replace('=s90', '=s300');
-            var infoSpans = _this4.miniNowPlayerInfo.getElementsByTagName('span');
+            _this3.miniAlbumArt.src = e.art.replace('=s90', '=s300');
+            var infoSpans = _this3.miniNowPlayerInfo.getElementsByTagName('span');
             infoSpans[0].innerHTML = e.title;
             infoSpans[1].innerHTML = e.artist + " - " + e.album;
           });
@@ -140,31 +143,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "_initGlobalEventHandlers",
         value: function _initGlobalEventHandlers() {
-          var _this5 = this;
+          var _this4 = this;
 
           // DEV: Scroll to change volume in mini player mode
           window.addEventListener('mousewheel', function (e) {
-            if (!_this5.scrollVolume) return;
-            if (_this5.miniState) {
+            if (!_this4.scrollVolume) return;
+            if (_this4.miniState) {
               if (e.wheelDelta < 0) {
-                _this5.GPM_API.volume.decreaseVolume();
+                _this4.GPM_API.volume.decreaseVolume();
               } else {
-                _this5.GPM_API.volume.increaseVolume();
+                _this4.GPM_API.volume.increaseVolume();
               }
             }
           });
 
           // DEV: Handle abstract resizing of the window
           document.body.addEventListener('mousemove', function () {
-            if (_this5.miniState && _this5.miniButtonElement.style.display !== 'none') {
+            if (_this4.miniState && _this4.miniButtonElement.style.display !== 'none') {
               document.body.setAttribute('ready', 'ready');
             }
           });
 
           // DEV: When in mini player mode implementees might want to drag the window
           document.addEventListener('mousedown', function (e) {
-            if (_this5.miniState && e.clientY <= 210) {
-              _this5._fire('dragstart');
+            if (_this4.miniState && e.clientY <= 210) {
+              _this4._fire('dragstart');
               e.preventDefault();
               e.stopPropagation();
               return false;
@@ -218,39 +221,39 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "getControls",
         value: function getControls() {
-          var _this6 = this;
+          var _this5 = this;
 
           return {
             enable: function enable() {
-              _this6._enable();
+              _this5._enable();
             },
             disable: function disable() {
-              _this6._disable();
+              _this5._disable();
             },
             toggle: function toggle() {
-              if (_this6.miniState) {
-                _this6._disable();
+              if (_this5.miniState) {
+                _this5._disable();
               } else {
-                _this6._enable();
+                _this5._enable();
               }
             },
             enableButton: function enableButton() {
-              _this6._enableButton();
+              _this5._enableButton();
             },
             disableButton: function disableButton() {
-              _this6._disableButton();
+              _this5._disableButton();
             },
             showControlsWhen: function showControlsWhen(when) {
-              _this6._showControlsWhen(when);
+              _this5._showControlsWhen(when);
             },
             setScrollVolume: function setScrollVolume(state) {
-              _this6.scrollVolume = state;
+              _this5.scrollVolume = state;
             },
             getScrollVolume: function getScrollVolume() {
-              return _this6.scrollVolume;
+              return _this5.scrollVolume;
             },
             on: function on(what, fn) {
-              _this6._hook(what, fn);
+              _this5._hook(what, fn);
             }
           };
         }

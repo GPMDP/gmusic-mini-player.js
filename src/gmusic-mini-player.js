@@ -86,19 +86,23 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
   }
 
   _initMiniPlayerRadioMonitor() {
-    this.GPM_API.on('change:playback', () => {
-      const repeatElement = document.querySelectorAll(this.SELECTORS.repeat.buttonSelector);
-      const player = document.querySelector('#player');
-      if (repeatElement && repeatElement[0] && player) {
-        if (repeatElement[0].style.display === 'none') {
-          if (player.getAttribute('radio') === null) {
-            player.setAttribute('radio', 'on');
-          }
-        } else if (player.getAttribute('radio') !== null) {
-          player.removeAttribute('radio');
+    this.GPM_API.on('change:playback', this._radioMonitor.bind(this));
+    this.GPM_API.on('change:playback-time', this._radioMonitor.bind(this));
+    this.GPM_API.on('change:song', this._radioMonitor.bind(this));
+  }
+
+  _radioMonitor() {
+    const repeatElement = document.querySelectorAll(this.SELECTORS.repeat.buttonSelector);
+    const player = document.querySelector('#player');
+    if (repeatElement && repeatElement[0] && player) {
+      if (repeatElement[0].style.display === 'none') {
+        if (player.getAttribute('radio') === null) {
+          player.setAttribute('radio', 'on');
         }
+      } else if (player.getAttribute('radio') !== null) {
+        player.removeAttribute('radio');
       }
-    });
+    }
   }
 
   _initMiniPlayerNowPlayingMonitor() {
@@ -267,4 +271,3 @@ if (!window.GMusic) {
   // DEV: Hook into the existing GMusic libraries global prototype
   window.GMusic._protoObj.mini = controller.getControls();
 }
-
