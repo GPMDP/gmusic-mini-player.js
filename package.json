@@ -11,8 +11,9 @@
   "main": "dist/gmusic-mini-player.js",
   "scripts": {
     "build": "gulp build",
-    "test": "npm run lint",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepublish": "npm run build",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
