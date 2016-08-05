@@ -20,7 +20,8 @@ gulp.task('transpile', ['css'], () =>
 gulp.task('browserify', ['transpile'], () =>
   gulp.src('./build/main.js')
     .pipe(browserify({
-      standalone: 'GMusicMiniPlayer'
+      standalone: 'GMusicMiniPlayer',
+      transform: ['brfs']
     }))
     .pipe(rename('gmusic-mini-player.js'))
     .pipe(gulp.dest('./dist'))

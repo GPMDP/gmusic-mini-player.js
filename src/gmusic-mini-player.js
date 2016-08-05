@@ -1,5 +1,6 @@
-import fs from 'fs';
 import GMusic, { GMusicNamespace } from 'gmusic.js';
+
+const fs = require('fs');
 
 // DEV: These constants will be transformed into string constants by browserify
 const BASE_CSS = fs.readFileSync(__dirname + '/../build/rework.css', 'utf8'); // eslint-disable-line

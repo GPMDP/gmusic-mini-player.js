@@ -8,7 +8,7 @@
     "email": "samuel.r.attard@gmail.com",
     "url": "samuelattard.com"
   },
-  "main": "src/gmusic-mini-player.js",
+  "main": "dist/gmusic-mini-player.js",
   "scripts": {
     "build": "gulp build",
     "test": "npm run lint",
