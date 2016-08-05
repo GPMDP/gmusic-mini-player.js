@@ -97,7 +97,7 @@ export default class GMusicMiniPlayerController extends GMusicNamespace {
       </paper-icon-button>`;
     this.miniButtonElement = container.querySelectorAll('[data-id="show-miniplayer-dp"]')[0];
     this.miniButtonElement.addEventListener('click', (e) => {
-      this.getControls().toggle();
+      this.toggle();
       e.target.blur();
       this.miniButtonElement.style.display = 'none';
       document.body.removeAttribute('ready');
