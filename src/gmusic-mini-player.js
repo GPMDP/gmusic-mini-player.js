@@ -120,7 +120,7 @@ export default class GMusicMiniPlayerController extends GMusicNamespace {
   _initMiniPlayerRadioMonitor() {
     this.GPM_API.on('change:playback', this._radioMonitor.bind(this));
     this.GPM_API.on('change:playback-time', this._radioMonitor.bind(this));
-    this.GPM_API.on('change:song', this._radioMonitor.bind(this));
+    this.GPM_API.on('change:track', this._radioMonitor.bind(this));
   }
 
   _radioMonitor() {
@@ -138,8 +138,8 @@ export default class GMusicMiniPlayerController extends GMusicNamespace {
   }
 
   _initMiniPlayerNowPlayingMonitor() {
-    this.GPM_API.on('change:song', (e) => {
-      this.miniAlbumArt.src = e.art.replace('=s90', '=s300');
+    this.GPM_API.on('change:track', (e) => {
+      this.miniAlbumArt.src = e.albumArt.replace('=s90', '=s300');
       const infoSpans = this.miniNowPlayerInfo.getElementsByTagName('span');
       infoSpans[0].innerHTML = e.title;
       infoSpans[1].innerHTML = `${e.artist} - ${e.album}`;
