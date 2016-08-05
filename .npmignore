@@ -1,3 +1,4 @@
 node_modules/
-.eslintrc
-Gruntfile.js
+build/
+src/
+test/

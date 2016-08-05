@@ -1,10 +1,41 @@
-const fs = require('fs');
+import fs from 'fs';
+import GMusic, { GMusicNamespace } from 'gmusic.js';
 
 // DEV: These constants will be transformed into string constants by browserify
 const BASE_CSS = fs.readFileSync(__dirname + '/../build/rework.css', 'utf8'); // eslint-disable-line
 const CONSTANTS = require('../lib/_constants');
 
-const GMusicMiniPlayerController = class GMusicMiniPlayerController {
+export default class GMusicMiniPlayerController extends GMusicNamespace {
+  constructor(...args) {
+    super(...args);
+
+    this.GPM_API = new GMusic(window);
+    this.SELECTORS = GMusic.SELECTORS;
+
+    this._initCSS();
+    this._initMiniPlayerUI();
+    this._initMiniPlayerNowPlayingMonitor();
+    this._initMiniPlayerTimingUI();
+    this._initMiniPlayerTimingMonitor();
+    this._initMiniPlayerRadioMonitor();
+
+    this.miniState = false;
+    this.scrollVolume = true;
+
+    this._initGlobalEventHandlers();
+
+    this.addMethods([
+      'enable',
+      'disable',
+      'toggle',
+      'enableButton',
+      'disableButton',
+      'showControlsWhen',
+      'setScrollVolume',
+      'getScrollVolume',
+    ]);
+  }
+
   _initCSS() {
     const styleElement = document.createElement('style');
     styleElement.innerHTML = BASE_CSS;
@@ -92,7 +123,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
   }
 
   _radioMonitor() {
-    const repeatElement = document.querySelectorAll(this.SELECTORS.repeat.buttonSelector);
+    const repeatElement = document.querySelectorAll(this.SELECTORS.controlsSelectors.repeat);
     const player = document.querySelector('#player');
     if (repeatElement && repeatElement[0] && player) {
       if (repeatElement[0].style.display === 'none') {
@@ -142,25 +173,8 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
         e.stopPropagation();
         return false;
       }
+      return true;
     });
-  }
-
-  constructor() {
-    this.GPM_API = new window.GMusic(window);
-    this.SELECTORS = window.GMusic.SELECTORS;
-
-    this._initCSS();
-    this._initMiniPlayerUI();
-    this._initMiniPlayerNowPlayingMonitor();
-    this._initMiniPlayerTimingUI();
-    this._initMiniPlayerTimingMonitor();
-    this._initMiniPlayerRadioMonitor();
-
-    this.miniState = false;
-    this.scrollVolume = true;
-    this.events = {};
-
-    this._initGlobalEventHandlers();
   }
 
   _timeFormat(milli) {
@@ -170,55 +184,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     return `${minutes}:${(seconds < 10 ? `0${seconds}` : seconds)}`;
   }
 
-  _hook(what, fn) {
-    this.events[what] = this.events[what] || [];
-    this.events[what].push(fn);
-  }
-
-  _fire(what, e) {
-    this.events[what] = this.events[what] || [];
-    this.events[what].forEach((fn) => {
-      fn(e);
-    });
-  }
-
-  getControls() {
-    return {
-      enable: () => {
-        this._enable();
-      },
-      disable: () => {
-        this._disable();
-      },
-      toggle: () => {
-        if (this.miniState) {
-          this._disable();
-        } else {
-          this._enable();
-        }
-      },
-      enableButton: () => {
-        this._enableButton();
-      },
-      disableButton: () => {
-        this._disableButton();
-      },
-      showControlsWhen: (when) => {
-        this._showControlsWhen(when);
-      },
-      setScrollVolume: (state) => {
-        this.scrollVolume = state;
-      },
-      getScrollVolume: () => {
-        return this.scrollVolume;
-      },
-      on: (what, fn) => {
-        this._hook(what, fn);
-      },
-    };
-  }
-
-  _enable() {
+  enable() {
     let delay = 0;
     this.miniState = true;
     // close menu
@@ -227,7 +193,7 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
       closeBtn.click();
     }
     // DEV: Allow a syncronous callback to handle the enable event and delay by X milliseconds
-    this._fire('enable', (newDelay) => {
+    this.emit('mini:enable', (newDelay) => {
       delay = newDelay;
     });
     setTimeout(() => {
@@ -235,11 +201,11 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     }, delay);
   }
 
-  _disable() {
+  disable() {
     let delay = 0;
     this.miniState = false;
     // DEV: Allow a syncronous callback to handle the disable event and delay by X milliseconds
-    this._fire('disable', (newDelay) => {
+    this.emit('mini:disable', (newDelay) => {
       delay = newDelay;
     });
     setTimeout(() => {
@@ -247,27 +213,27 @@ const GMusicMiniPlayerController = class GMusicMiniPlayerController {
     }, delay);
   }
 
-  _enableButton() {
+  enableButton() {
     this.miniButtonElement.style.display = 'block';
   }
 
-  _disableButton() {
+  disableButton() {
     this.miniButtonElement.style.display = 'none';
   }
 
-  _showControlsWhen(when) {
+  showControlsWhen(when) {
     if (when === 'hover') {
       document.body.removeAttribute('controls');
     } else {
       document.body.setAttribute('controls', 'controls');
     }
   }
-};
 
-if (!window.GMusic) {
-  console.error('The core GMusic library must be included for the GMusic mini player library to work'); // eslint-disable-line
-} else {
-  const controller = new GMusicMiniPlayerController();
-  // DEV: Hook into the existing GMusic libraries global prototype
-  window.GMusic._protoObj.mini = controller.getControls();
+  setScrollVolume(state) {
+    this.scrollVolume = state;
+  }
+
+  getScrollVolume() {
+    return this.scrollVolume;
+  }
 }

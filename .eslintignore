@@ -1,1 +1,5 @@
 dist/
+build/
+node_modules/
+lib/
+test/
