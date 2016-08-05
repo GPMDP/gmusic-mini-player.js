@@ -214,6 +214,14 @@ export default class GMusicMiniPlayerController extends GMusicNamespace {
     }, delay);
   }
 
+  toggle() {
+    if (this.miniState) {
+      this.disable();
+    } else {
+      this.enable();
+    }
+  }
+
   enableButton() {
     this.miniButtonElement.style.display = 'block';
   }
