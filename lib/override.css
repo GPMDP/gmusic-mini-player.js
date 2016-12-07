@@ -16,14 +16,33 @@
   bottom: -100px;
   transition-timing-function: ease-in-out;
   width: 280px;
-  left: 10px;
+  left: 14px;
   right: 10px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  position: absolute;
+}
+
+body[ready] #main,
+body[controls] #main {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 9999999;
+}
+
+body[ready] paper-header-panel,
+body[controls] paper-header-panel {
+  display: none;
+}
+
+body[ready]:hover .material-transfer-status-indicator-container,
+body[controls] .material-transfer-status-indicator-container {
+  display: none;
 }
 
 body[ready]:hover #player, body[controls] #player {
-  bottom: -12px;
+  bottom: 8px;
 }
 
 body[ready]:hover #mini-info, body[controls] #mini-info {
